@@ -12,6 +12,7 @@ export const Button = ({
     <div
       style={isMouseDown === label ? btnStyle : {}}
       onMouseDown={() => handleOnMouseDown(label)}
+      onMouseUp={() => handleOnMouseDown(label)}
       onClick={() => handleOnButtonClick(label)}
       className={"btn " + cls}
     >

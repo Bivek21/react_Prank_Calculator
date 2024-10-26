@@ -17,8 +17,13 @@ const App = () => {
     const extraValue = randomValue();
     const total = eval(strToDisplay) + extraValue;
     setStrToDisplay(total.toString());
+    SetIsPrank(extraValue !== 0); // Set prank to true only if extraValue is not 0
+
     if (extraValue) {
+      resetAudio(); // Ensure audio is reset before playing
       audio.play();
+    } else {
+      SetIsPrank(false);
     }
   };
 
@@ -30,6 +35,8 @@ const App = () => {
   const buttonAction = (value) => {
     if (value === "AC") {
       setStrToDisplay("");
+      SetIsPrank(false);
+      resetAudio();
       return;
     }
 
@@ -70,14 +77,26 @@ const App = () => {
     setStrToDisplay(strToDisplay + value);
   };
 
+  // const handleOnButtonClick = (value) => {
+  //   setIsMouseDown();
+  //   buttonAction(value);
+  // };
+  // const handleOnMouseDown = (value) => {
+  //   console.log(value);
+  // };
+  // console.log(isMouseDown);
   const handleOnButtonClick = (value) => {
-    setIsMouseDown();
+    setIsMouseDown(""); // Reset isMouseDown here
     buttonAction(value);
   };
+
   const handleOnMouseDown = (value) => {
-    console.log(value);
+    setIsMouseDown(value); // Set isMouseDown to true when button is pressed
   };
-  console.log(isMouseDown);
+  const handleOnMouseUp = () => {
+    setIsMouseDown("");
+  };
+
   const btns = [
     { cls: "btn-ac", label: "AC" },
     { cls: "btn-c", label: "C" },
@@ -110,6 +129,7 @@ const App = () => {
         <div className="calculator">
           <div className="display londrina-sketch-regular prank">
             {strToDisplay || "0.00"}
+            {/* {isPrank && <p className="prank">Prank</p>} */}
           </div>
           {btns.map((btn, i) => (
             <Button
